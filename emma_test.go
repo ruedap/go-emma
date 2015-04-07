@@ -94,14 +94,14 @@ func TestEmma_parse(t *testing.T) {
 
 	expected := []decl{
 		{
-			snippet:  "pos-s",
-			property: "position",
-			value:    "static",
+			Snippet:  "pos-s",
+			Property: "position",
+			Value:    "static",
 		},
 		{
-			snippet:  "pos-a",
-			property: "position",
-			value:    "absolute",
+			Snippet:  "pos-a",
+			Property: "position",
+			Value:    "absolute",
 		},
 	}
 	assert.Equal(t, actual, expected)
@@ -116,9 +116,9 @@ func TestEmma_parse_Comment(t *testing.T) {
 
 	expected := []decl{
 		{
-			snippet:  "ti--9999",
-			property: "text-indent",
-			value:    "-9999px",
+			Snippet:  "ti--9999",
+			Property: "text-indent",
+			Value:    "-9999px",
 		},
 	}
 	assert.Equal(t, actual, expected)
@@ -133,9 +133,9 @@ func TestEmma_parse_FontFamily(t *testing.T) {
 
 	expected := []decl{
 		{
-			snippet:  "ff-t",
-			property: "font-family",
-			value:    `"Times New Roman", Times, Baskerville, Georgia, serif`,
+			Snippet:  "ff-t",
+			Property: "font-family",
+			Value:    `"Times New Roman", Times, Baskerville, Georgia, serif`,
 		},
 	}
 	assert.Equal(t, actual, expected)

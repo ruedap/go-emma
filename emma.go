@@ -1,6 +1,7 @@
 package emma
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"regexp"
@@ -9,9 +10,9 @@ import (
 
 // Single declaration
 type decl struct {
-	snippet  string
-	property string
-	value    string
+	Snippet  string
+	Property string
+	Value    string
 }
 
 func Find(src string, terms []string) []decl {
@@ -30,7 +31,12 @@ func Find(src string, terms []string) []decl {
 }
 
 func ToCSS(d decl) string {
-	return fmt.Sprintf(".u-%s { %s: %s; }\n", d.snippet, d.property, d.value)
+	return fmt.Sprintf(".u-%s { %s: %s; }\n", d.Snippet, d.Property, d.Value)
+}
+
+func ToJSON(decls []decl) (string, error) {
+	b, err := json.Marshal(decls)
+	return string(b), err
 }
 
 func contains(d decl, terms []string) bool {
@@ -44,15 +50,15 @@ func contains(d decl, terms []string) bool {
 }
 
 func containsDecl(d decl, term string) bool {
-	if strings.Contains(d.snippet, term) {
+	if strings.Contains(d.Snippet, term) {
 		return true
 	}
 
-	if strings.Contains(d.property, term) {
+	if strings.Contains(d.Property, term) {
 		return true
 	}
 
-	if strings.Contains(d.value, term) {
+	if strings.Contains(d.Value, term) {
 		return true
 	}
 
@@ -83,9 +89,9 @@ func parse(src string) ([]decl, error) {
 		}
 
 		dec = decl{
-			snippet:  strings.TrimSpace(sl[1]),
-			property: strings.TrimSpace(sl[2]),
-			value:    s,
+			Snippet:  strings.TrimSpace(sl[1]),
+			Property: strings.TrimSpace(sl[2]),
+			Value:    s,
 		}
 		ret = append(ret, dec)
 	}
