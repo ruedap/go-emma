@@ -13,6 +13,22 @@ type decl struct {
 	value    string
 }
 
+func containsDecl(d decl, term string) bool {
+	if strings.Contains(d.snippet, term) {
+		return true
+	}
+
+	if strings.Contains(d.property, term) {
+		return true
+	}
+
+	if strings.Contains(d.value, term) {
+		return true
+	}
+
+	return false
+}
+
 func parse(src string) ([]decl, error) {
 	re := regexp.MustCompile(`\s+\((.+?)\,(.+?)\,(.+)\)\,.*`)
 	res := re.FindAllStringSubmatch(src, -1)
