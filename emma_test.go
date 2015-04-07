@@ -33,16 +33,19 @@ func TestEmma_Find(t *testing.T) {
 }
 
 func TestEmma_ToCSS(t *testing.T) {
-	d := []Decl{
+	decls := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
 	}
-	actual := ToCSS(d)
+	e := NewEmma()
+	e.result = decls
+	actual := e.ToCSS()
 	expected := ".u-pos-s { position: static; }\n.u-pos-a { position: absolute; }\n"
 	assert.Equal(t, actual, expected)
 
-	d = []Decl{{"ff-t", "font-family", `"Times New Roman", Times, Baskerville, Georgia, serif`}}
-	actual = ToCSS(d)
+	decls = []Decl{{"ff-t", "font-family", `"Times New Roman", Times, Baskerville, Georgia, serif`}}
+	e.result = decls
+	actual = e.ToCSS()
 	expected = ".u-ff-t { font-family: \"Times New Roman\", Times, Baskerville, Georgia, serif; }\n"
 	assert.Equal(t, actual, expected)
 }

@@ -41,9 +41,9 @@ func (e *Emma) Find(terms []string) *Emma {
 	return e
 }
 
-func ToCSS(decls []Decl) string {
+func (e *Emma) ToCSS() string {
 	var str string
-	for _, d := range decls {
+	for _, d := range e.result {
 		str += fmt.Sprintf(".u-%s { %s: %s; }\n", d.Snippet, d.Property, d.Value)
 	}
 
