@@ -35,6 +35,10 @@ func ToCSS(d decl) string {
 }
 
 func ToJSON(decls []decl) (string, error) {
+	if len(decls) == 0 {
+		return "[]", nil
+	}
+
 	b, err := json.Marshal(decls)
 	return string(b), err
 }

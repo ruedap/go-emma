@@ -49,6 +49,16 @@ func TestEmma_ToJSON(t *testing.T) {
 	assert.Equal(t, actual, expected)
 }
 
+func TestEmma_ToJSON_Zero(t *testing.T) {
+	ds := []decl{}
+
+	actual, err := ToJSON(ds)
+	assert.Nil(t, err)
+
+	expected := "[]"
+	assert.Equal(t, actual, expected)
+}
+
 func TestEmma_contains_True(t *testing.T) {
 	d := decl{"pos-s", "position", "static"}
 	actual := contains(d, []string{"s-s"})
