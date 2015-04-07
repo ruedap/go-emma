@@ -6,6 +6,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEmma_Find(t *testing.T) {
+	src := `
+    ( pos-s       , position               , static ),
+    ( pos-a       , position               , absolute ),
+    ( pos-r       , position               , relative ),
+    ( pos-f       , position               , fixed ),
+`
+	terms := []string{"position"}
+	actual := Find(src, terms)
+	expected := []decl{
+		{"pos-s", "position", "static"},
+		{"pos-a", "position", "absolute"},
+		{"pos-r", "position", "relative"},
+		{"pos-f", "position", "fixed"},
+	}
+	assert.Equal(t, actual, expected)
+}
+
 func TestEmma_ToCSS(t *testing.T) {
 	d := decl{"pos-s", "position", "static"}
 	actual := ToCSS(d)
