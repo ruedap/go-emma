@@ -13,6 +13,16 @@ type decl struct {
 	value    string
 }
 
+func contains(d decl, terms []string) bool {
+	for _, t := range terms {
+		if !containsDecl(d, t) {
+			return false
+		}
+	}
+
+	return true
+}
+
 func containsDecl(d decl, term string) bool {
 	if strings.Contains(d.snippet, term) {
 		return true
