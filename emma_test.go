@@ -14,7 +14,9 @@ func TestEmma_Find(t *testing.T) {
     ( pos-f       , position               , fixed ),
 `
 	terms := []string{"position"}
-	actual := Find(src, terms)
+	e := NewEmma()
+	e.setSrc(src)
+	actual := e.Find(terms).result
 	expected := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
@@ -115,7 +117,10 @@ func TestEmma_parse(t *testing.T) {
     ( pos-s       , position               , static ),
     ( pos-a       , position               , absolute ),
 `
-	actual, err := parse(src)
+
+	e := NewEmma()
+	e.setSrc(src)
+	actual, err := e.parse()
 	assert.Nil(t, err)
 
 	expected := []Decl{
@@ -137,7 +142,9 @@ func TestEmma_parse_Comment(t *testing.T) {
 	src := `
     ( ti--9999    , text-indent            , -9999px ),             // Emmet: ti-
 `
-	actual, err := parse(src)
+	e := NewEmma()
+	e.setSrc(src)
+	actual, err := e.parse()
 	assert.Nil(t, err)
 
 	expected := []Decl{
@@ -154,7 +161,9 @@ func TestEmma_parse_FontFamily(t *testing.T) {
 	src := `
     ( ff-t        , font-family            , '"Times New Roman", Times, Baskerville, Georgia, serif' ),
 `
-	actual, err := parse(src)
+	e := NewEmma()
+	e.setSrc(src)
+	actual, err := e.parse()
 	assert.Nil(t, err)
 
 	expected := []Decl{
@@ -168,7 +177,9 @@ func TestEmma_parse_FontFamily(t *testing.T) {
 }
 
 func TestEmma_parse_Blank(t *testing.T) {
-	actual, err := parse("")
+	e := NewEmma()
+	e.setSrc("")
+	actual, err := e.parse()
 	assert.NotNil(t, err)
 
 	expected := []Decl{}

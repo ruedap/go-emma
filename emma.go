@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+type Emma struct {
+	src    string
+	decls  []Decl
+	result []Decl
+}
+
 // Single declaration
 type Decl struct {
 	Snippet  string `json:"snippet"`
@@ -15,19 +21,24 @@ type Decl struct {
 	Value    string `json:"value"`
 }
 
-func Find(src string, terms []string) []Decl {
-	decls, err := parse(src)
-	if err != nil {
-		return []Decl{}
-	}
+func NewEmma() *Emma {
+	e := new(Emma)
+	e.setSrc(Src)
+	e.result = []Decl{}
 
-	var ret []Decl
-	for _, d := range decls {
+	return e
+}
+
+func (e *Emma) Find(terms []string) *Emma {
+	var res []Decl
+	for _, d := range e.decls {
 		if contains(d, terms) {
-			ret = append(ret, d)
+			res = append(res, d)
 		}
 	}
-	return ret
+
+	e.result = res
+	return e
 }
 
 func ToCSS(decls []Decl) string {
@@ -74,9 +85,9 @@ func containsDecl(d Decl, term string) bool {
 	return false
 }
 
-func parse(src string) ([]Decl, error) {
+func (e *Emma) parse() ([]Decl, error) {
 	re := regexp.MustCompile(`\s+\((.+?)\,(.+?)\,(.+)\)\,.*`)
-	res := re.FindAllStringSubmatch(src, -1)
+	res := re.FindAllStringSubmatch(e.src, -1)
 	var dec Decl
 	var ret []Decl
 
@@ -106,4 +117,12 @@ func parse(src string) ([]Decl, error) {
 	}
 
 	return ret, nil
+}
+
+func (e *Emma) setSrc(src string) *Emma {
+	e.src = src
+	decls, _ := e.parse()
+	e.decls = decls
+
+	return e
 }
