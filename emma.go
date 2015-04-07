@@ -9,19 +9,19 @@ import (
 )
 
 // Single declaration
-type decl struct {
+type Decl struct {
 	Snippet  string `json:"snippet"`
 	Property string `json:"property"`
 	Value    string `json:"value"`
 }
 
-func Find(src string, terms []string) []decl {
+func Find(src string, terms []string) []Decl {
 	decls, err := parse(src)
 	if err != nil {
-		return []decl{}
+		return []Decl{}
 	}
 
-	var ret []decl
+	var ret []Decl
 	for _, d := range decls {
 		if contains(d, terms) {
 			ret = append(ret, d)
@@ -30,7 +30,7 @@ func Find(src string, terms []string) []decl {
 	return ret
 }
 
-func ToCSS(decls []decl) string {
+func ToCSS(decls []Decl) string {
 	var str string
 	for _, d := range decls {
 		str += fmt.Sprintf(".u-%s { %s: %s; }\n", d.Snippet, d.Property, d.Value)
@@ -39,7 +39,7 @@ func ToCSS(decls []decl) string {
 	return str
 }
 
-func ToJSON(decls []decl) (string, error) {
+func ToJSON(decls []Decl) (string, error) {
 	if len(decls) == 0 {
 		return "[]", nil
 	}
@@ -48,7 +48,7 @@ func ToJSON(decls []decl) (string, error) {
 	return string(b), err
 }
 
-func contains(d decl, terms []string) bool {
+func contains(d Decl, terms []string) bool {
 	for _, t := range terms {
 		if !containsDecl(d, t) {
 			return false
@@ -58,7 +58,7 @@ func contains(d decl, terms []string) bool {
 	return true
 }
 
-func containsDecl(d decl, term string) bool {
+func containsDecl(d Decl, term string) bool {
 	if strings.Contains(d.Snippet, term) {
 		return true
 	}
@@ -74,14 +74,14 @@ func containsDecl(d decl, term string) bool {
 	return false
 }
 
-func parse(src string) ([]decl, error) {
+func parse(src string) ([]Decl, error) {
 	re := regexp.MustCompile(`\s+\((.+?)\,(.+?)\,(.+)\)\,.*`)
 	res := re.FindAllStringSubmatch(src, -1)
-	var dec decl
-	var ret []decl
+	var dec Decl
+	var ret []Decl
 
 	if len(res) < 1 {
-		return []decl{}, errors.New("failed to parse source file")
+		return []Decl{}, errors.New("failed to parse source file")
 	}
 
 	for _, sl := range res {
@@ -97,7 +97,7 @@ func parse(src string) ([]decl, error) {
 			s = strings.Trim(s, `"`)
 		}
 
-		dec = decl{
+		dec = Decl{
 			Snippet:  strings.TrimSpace(sl[1]),
 			Property: strings.TrimSpace(sl[2]),
 			Value:    s,

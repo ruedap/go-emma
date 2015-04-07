@@ -15,7 +15,7 @@ func TestEmma_Find(t *testing.T) {
 `
 	terms := []string{"position"}
 	actual := Find(src, terms)
-	expected := []decl{
+	expected := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
 		{"pos-r", "position", "relative"},
@@ -25,7 +25,7 @@ func TestEmma_Find(t *testing.T) {
 }
 
 func TestEmma_ToCSS(t *testing.T) {
-	d := []decl{
+	d := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
 	}
@@ -33,14 +33,14 @@ func TestEmma_ToCSS(t *testing.T) {
 	expected := ".u-pos-s { position: static; }\n.u-pos-a { position: absolute; }\n"
 	assert.Equal(t, actual, expected)
 
-	d = []decl{{"ff-t", "font-family", `"Times New Roman", Times, Baskerville, Georgia, serif`}}
+	d = []Decl{{"ff-t", "font-family", `"Times New Roman", Times, Baskerville, Georgia, serif`}}
 	actual = ToCSS(d)
 	expected = ".u-ff-t { font-family: \"Times New Roman\", Times, Baskerville, Georgia, serif; }\n"
 	assert.Equal(t, actual, expected)
 }
 
 func TestEmma_ToJSON(t *testing.T) {
-	ds := []decl{
+	ds := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
 	}
@@ -53,7 +53,7 @@ func TestEmma_ToJSON(t *testing.T) {
 }
 
 func TestEmma_ToJSON_Zero(t *testing.T) {
-	ds := []decl{}
+	ds := []Decl{}
 
 	actual, err := ToJSON(ds)
 	assert.Nil(t, err)
@@ -63,7 +63,7 @@ func TestEmma_ToJSON_Zero(t *testing.T) {
 }
 
 func TestEmma_contains_True(t *testing.T) {
-	d := decl{"pos-s", "position", "static"}
+	d := Decl{"pos-s", "position", "static"}
 	actual := contains(d, []string{"s-s"})
 	assert.True(t, actual)
 
@@ -75,7 +75,7 @@ func TestEmma_contains_True(t *testing.T) {
 }
 
 func TestEmma_contains_False(t *testing.T) {
-	d := decl{"pos-s", "position", "static"}
+	d := Decl{"pos-s", "position", "static"}
 	actual := contains(d, []string{"pos-a"})
 	assert.False(t, actual)
 
@@ -87,7 +87,7 @@ func TestEmma_contains_False(t *testing.T) {
 }
 
 func TestEmma_containsDecl_True(t *testing.T) {
-	d := decl{"pos-s", "position", "static"}
+	d := Decl{"pos-s", "position", "static"}
 	actual := containsDecl(d, "s-s")
 	assert.True(t, actual)
 
@@ -99,7 +99,7 @@ func TestEmma_containsDecl_True(t *testing.T) {
 }
 
 func TestEmma_containsDecl_False(t *testing.T) {
-	d := decl{"pos-s", "position", "static"}
+	d := Decl{"pos-s", "position", "static"}
 	actual := containsDecl(d, "pos-a")
 	assert.False(t, actual)
 
@@ -118,7 +118,7 @@ func TestEmma_parse(t *testing.T) {
 	actual, err := parse(src)
 	assert.Nil(t, err)
 
-	expected := []decl{
+	expected := []Decl{
 		{
 			Snippet:  "pos-s",
 			Property: "position",
@@ -140,7 +140,7 @@ func TestEmma_parse_Comment(t *testing.T) {
 	actual, err := parse(src)
 	assert.Nil(t, err)
 
-	expected := []decl{
+	expected := []Decl{
 		{
 			Snippet:  "ti--9999",
 			Property: "text-indent",
@@ -157,7 +157,7 @@ func TestEmma_parse_FontFamily(t *testing.T) {
 	actual, err := parse(src)
 	assert.Nil(t, err)
 
-	expected := []decl{
+	expected := []Decl{
 		{
 			Snippet:  "ff-t",
 			Property: "font-family",
@@ -171,6 +171,6 @@ func TestEmma_parse_Blank(t *testing.T) {
 	actual, err := parse("")
 	assert.NotNil(t, err)
 
-	expected := []decl{}
+	expected := []Decl{}
 	assert.Equal(t, actual, expected)
 }
