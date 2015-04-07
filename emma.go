@@ -3,6 +3,7 @@ package emma
 import (
 	"errors"
 	"regexp"
+	"strings"
 )
 
 // Single declaration
@@ -13,8 +14,9 @@ type decl struct {
 }
 
 func parse(src string) ([]decl, error) {
-	re := regexp.MustCompile(`\s+\((.+)\,(.+)\,(.+)\)\,.*`)
+	re := regexp.MustCompile(`\s+\((.+?)\,(.+?)\,(.+)\)\,.*`)
 	res := re.FindAllStringSubmatch(src, -1)
+	var dec decl
 	var ret []decl
 
 	if len(res) < 1 {
@@ -22,17 +24,25 @@ func parse(src string) ([]decl, error) {
 	}
 
 	for _, sl := range res {
-		if len(sl) != 3 {
+		if len(sl) != 4 {
 			continue
 		}
+
+		s := strings.TrimSpace(sl[3])
+		switch {
+		case s[0] == `'`[0] && s[len(s)-1] == `'`[0]:
+			s = strings.Trim(s, `'`)
+		case s[0] == `"`[0] && s[len(s)-1] == `"`[0]:
+			s = strings.Trim(s, `"`)
+		}
+
+		dec = decl{
+			snippet:  strings.TrimSpace(sl[1]),
+			property: strings.TrimSpace(sl[2]),
+			value:    s,
+		}
+		ret = append(ret, dec)
 	}
 
 	return ret, nil
 }
-
-const Src string = `
-    ( pos-s       , position               , static ),
-    ( pos-a       , position               , absolute ),
-    ( pos-r       , position               , relative ),
-    ( pos-f       , position               , fixed ),
-`
