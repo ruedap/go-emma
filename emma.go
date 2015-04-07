@@ -30,8 +30,13 @@ func Find(src string, terms []string) []decl {
 	return ret
 }
 
-func ToCSS(d decl) string {
-	return fmt.Sprintf(".u-%s { %s: %s; }\n", d.Snippet, d.Property, d.Value)
+func ToCSS(decls []decl) string {
+	var str string
+	for _, d := range decls {
+		str += fmt.Sprintf(".u-%s { %s: %s; }\n", d.Snippet, d.Property, d.Value)
+	}
+
+	return str
 }
 
 func ToJSON(decls []decl) (string, error) {
