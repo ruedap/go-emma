@@ -18,6 +18,18 @@ func TestEmma_contains_True(t *testing.T) {
 	assert.True(t, actual)
 }
 
+func TestEmma_contains_False(t *testing.T) {
+	d := decl{"pos-s", "position", "static"}
+	actual := contains(d, []string{"pos-a"})
+	assert.False(t, actual)
+
+	actual = contains(d, []string{"s-s", "pos-a"})
+	assert.False(t, actual)
+
+	actual = contains(d, []string{"s", "s", "z"})
+	assert.False(t, actual)
+}
+
 func TestEmma_containsDecl_True(t *testing.T) {
 	d := decl{"pos-s", "position", "static"}
 	actual := containsDecl(d, "s-s")
