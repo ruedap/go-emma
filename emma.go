@@ -50,39 +50,13 @@ func (e *Emma) ToCSS() string {
 	return str
 }
 
-func ToJSON(decls []Decl) (string, error) {
-	if len(decls) == 0 {
+func (e *Emma) ToJSON() (string, error) {
+	if len(e.result) == 0 {
 		return "[]", nil
 	}
 
-	b, err := json.Marshal(decls)
+	b, err := json.Marshal(e.result)
 	return string(b), err
-}
-
-func contains(d Decl, terms []string) bool {
-	for _, t := range terms {
-		if !containsDecl(d, t) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func containsDecl(d Decl, term string) bool {
-	if strings.Contains(d.Snippet, term) {
-		return true
-	}
-
-	if strings.Contains(d.Property, term) {
-		return true
-	}
-
-	if strings.Contains(d.Value, term) {
-		return true
-	}
-
-	return false
 }
 
 func (e *Emma) parse() ([]Decl, error) {
@@ -125,4 +99,30 @@ func (e *Emma) setSrc(src string) *Emma {
 	e.decls = decls
 
 	return e
+}
+
+func contains(d Decl, terms []string) bool {
+	for _, t := range terms {
+		if !containsDecl(d, t) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func containsDecl(d Decl, term string) bool {
+	if strings.Contains(d.Snippet, term) {
+		return true
+	}
+
+	if strings.Contains(d.Property, term) {
+		return true
+	}
+
+	if strings.Contains(d.Value, term) {
+		return true
+	}
+
+	return false
 }

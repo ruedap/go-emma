@@ -51,12 +51,14 @@ func TestEmma_ToCSS(t *testing.T) {
 }
 
 func TestEmma_ToJSON(t *testing.T) {
-	ds := []Decl{
+	decls := []Decl{
 		{"pos-s", "position", "static"},
 		{"pos-a", "position", "absolute"},
 	}
 
-	actual, err := ToJSON(ds)
+	e := NewEmma()
+	e.result = decls
+	actual, err := e.ToJSON()
 	assert.Nil(t, err)
 
 	expected := "[{\"snippet\":\"pos-s\",\"property\":\"position\",\"value\":\"static\"},{\"snippet\":\"pos-a\",\"property\":\"position\",\"value\":\"absolute\"}]"
@@ -64,61 +66,15 @@ func TestEmma_ToJSON(t *testing.T) {
 }
 
 func TestEmma_ToJSON_Zero(t *testing.T) {
-	ds := []Decl{}
+	decls := []Decl{}
 
-	actual, err := ToJSON(ds)
+	e := NewEmma()
+	e.result = decls
+	actual, err := e.ToJSON()
 	assert.Nil(t, err)
 
 	expected := "[]"
 	assert.Equal(t, actual, expected)
-}
-
-func TestEmma_contains_True(t *testing.T) {
-	d := Decl{"pos-s", "position", "static"}
-	actual := contains(d, []string{"s-s"})
-	assert.True(t, actual)
-
-	actual = contains(d, []string{"s", "s", "s"})
-	assert.True(t, actual)
-
-	actual = contains(d, []string{"static", "position", "pos-s"})
-	assert.True(t, actual)
-}
-
-func TestEmma_contains_False(t *testing.T) {
-	d := Decl{"pos-s", "position", "static"}
-	actual := contains(d, []string{"pos-a"})
-	assert.False(t, actual)
-
-	actual = contains(d, []string{"s-s", "pos-a"})
-	assert.False(t, actual)
-
-	actual = contains(d, []string{"s", "s", "z"})
-	assert.False(t, actual)
-}
-
-func TestEmma_containsDecl_True(t *testing.T) {
-	d := Decl{"pos-s", "position", "static"}
-	actual := containsDecl(d, "s-s")
-	assert.True(t, actual)
-
-	actual = containsDecl(d, "ti")
-	assert.True(t, actual)
-
-	actual = containsDecl(d, "")
-	assert.True(t, actual)
-}
-
-func TestEmma_containsDecl_False(t *testing.T) {
-	d := Decl{"pos-s", "position", "static"}
-	actual := containsDecl(d, "pos-a")
-	assert.False(t, actual)
-
-	actual = containsDecl(d, "spo")
-	assert.False(t, actual)
-
-	actual = containsDecl(d, "ss")
-	assert.False(t, actual)
 }
 
 func TestEmma_parse(t *testing.T) {
@@ -193,4 +149,52 @@ func TestEmma_parse_Blank(t *testing.T) {
 
 	expected := []Decl{}
 	assert.Equal(t, actual, expected)
+}
+
+func TestEmma_contains_True(t *testing.T) {
+	d := Decl{"pos-s", "position", "static"}
+	actual := contains(d, []string{"s-s"})
+	assert.True(t, actual)
+
+	actual = contains(d, []string{"s", "s", "s"})
+	assert.True(t, actual)
+
+	actual = contains(d, []string{"static", "position", "pos-s"})
+	assert.True(t, actual)
+}
+
+func TestEmma_contains_False(t *testing.T) {
+	d := Decl{"pos-s", "position", "static"}
+	actual := contains(d, []string{"pos-a"})
+	assert.False(t, actual)
+
+	actual = contains(d, []string{"s-s", "pos-a"})
+	assert.False(t, actual)
+
+	actual = contains(d, []string{"s", "s", "z"})
+	assert.False(t, actual)
+}
+
+func TestEmma_containsDecl_True(t *testing.T) {
+	d := Decl{"pos-s", "position", "static"}
+	actual := containsDecl(d, "s-s")
+	assert.True(t, actual)
+
+	actual = containsDecl(d, "ti")
+	assert.True(t, actual)
+
+	actual = containsDecl(d, "")
+	assert.True(t, actual)
+}
+
+func TestEmma_containsDecl_False(t *testing.T) {
+	d := Decl{"pos-s", "position", "static"}
+	actual := containsDecl(d, "pos-a")
+	assert.False(t, actual)
+
+	actual = containsDecl(d, "spo")
+	assert.False(t, actual)
+
+	actual = containsDecl(d, "ss")
+	assert.False(t, actual)
 }
