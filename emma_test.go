@@ -6,6 +6,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEmma_ToCSS(t *testing.T) {
+	d := decl{"pos-s", "position", "static"}
+	actual := ToCSS(d)
+	expected := ".u-pos-s { position: static; }\n"
+	assert.Equal(t, actual, expected)
+
+	d = decl{"ff-t", "font-family", `"Times New Roman", Times, Baskerville, Georgia, serif`}
+	actual = ToCSS(d)
+	expected = ".u-ff-t { font-family: \"Times New Roman\", Times, Baskerville, Georgia, serif; }\n"
+	assert.Equal(t, actual, expected)
+}
+
 func TestEmma_contains_True(t *testing.T) {
 	d := decl{"pos-s", "position", "static"}
 	actual := contains(d, []string{"s-s"})
