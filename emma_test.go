@@ -48,7 +48,7 @@ func TestEmma_ToJSON(t *testing.T) {
 	actual, err := ToJSON(ds)
 	assert.Nil(t, err)
 
-	expected := "[{\"Snippet\":\"pos-s\",\"Property\":\"position\",\"Value\":\"static\"},{\"Snippet\":\"pos-a\",\"Property\":\"position\",\"Value\":\"absolute\"}]"
+	expected := "[{\"snippet\":\"pos-s\",\"property\":\"position\",\"value\":\"static\"},{\"snippet\":\"pos-a\",\"property\":\"position\",\"value\":\"absolute\"}]"
 	assert.Equal(t, actual, expected)
 }
 

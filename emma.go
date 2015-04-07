@@ -10,9 +10,9 @@ import (
 
 // Single declaration
 type decl struct {
-	Snippet  string
-	Property string
-	Value    string
+	Snippet  string `json:"snippet"`
+	Property string `json:"property"`
+	Value    string `json:"value"`
 }
 
 func Find(src string, terms []string) []decl {
