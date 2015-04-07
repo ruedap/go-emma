@@ -14,6 +14,21 @@ type decl struct {
 	value    string
 }
 
+func Find(src string, terms []string) []decl {
+	decls, err := parse(src)
+	if err != nil {
+		return []decl{}
+	}
+
+	var ret []decl
+	for _, d := range decls {
+		if contains(d, terms) {
+			ret = append(ret, d)
+		}
+	}
+	return ret
+}
+
 func ToCSS(d decl) string {
 	return fmt.Sprintf(".u-%s { %s: %s; }\n", d.snippet, d.property, d.value)
 }
