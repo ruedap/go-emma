@@ -6,6 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEmma_NewEmma(t *testing.T) {
+	actual := NewEmma()
+	assert.Equal(t, len(actual.decls), 522)
+	assert.Equal(t, len(actual.result), 0)
+}
+
 func TestEmma_Find(t *testing.T) {
 	src := `
     ( pos-s       , position               , static ),
