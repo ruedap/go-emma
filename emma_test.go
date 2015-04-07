@@ -6,6 +6,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEmma_containsDecl_True(t *testing.T) {
+	d := decl{"pos-s", "position", "static"}
+	actual := containsDecl(d, "s-s")
+	assert.True(t, actual)
+
+	actual = containsDecl(d, "ti")
+	assert.True(t, actual)
+
+	actual = containsDecl(d, "")
+	assert.True(t, actual)
+}
+
 func TestEmma_parse(t *testing.T) {
 	src := `
     ( pos-s       , position               , static ),
