@@ -46,6 +46,23 @@ func TestEmma_parse_Comment(t *testing.T) {
 	assert.Equal(t, actual, expected)
 }
 
+func TestEmma_parse_FontFamily(t *testing.T) {
+	src := `
+    ( ff-t        , font-family            , '"Times New Roman", Times, Baskerville, Georgia, serif' ),
+`
+	actual, err := parse(src)
+	assert.Nil(t, err)
+
+	expected := []decl{
+		{
+			snippet:  "ff-t",
+			property: "font-family",
+			value:    `"Times New Roman", Times, Baskerville, Georgia, serif`,
+		},
+	}
+	assert.Equal(t, actual, expected)
+}
+
 func TestEmma_parse_Blank(t *testing.T) {
 	actual, err := parse("")
 	assert.NotNil(t, err)
