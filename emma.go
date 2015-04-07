@@ -2,6 +2,7 @@ package emma
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -11,6 +12,10 @@ type decl struct {
 	snippet  string
 	property string
 	value    string
+}
+
+func ToCSS(d decl) string {
+	return fmt.Sprintf(".u-%s { %s: %s; }\n", d.snippet, d.property, d.value)
 }
 
 func contains(d decl, terms []string) bool {
