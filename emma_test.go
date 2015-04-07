@@ -29,6 +29,23 @@ func TestEmma_parse(t *testing.T) {
 	assert.Equal(t, actual, expected)
 }
 
+func TestEmma_parse_Comment(t *testing.T) {
+	src := `
+    ( ti--9999    , text-indent            , -9999px ),             // Emmet: ti-
+`
+	actual, err := parse(src)
+	assert.Nil(t, err)
+
+	expected := []decl{
+		{
+			snippet:  "ti--9999",
+			property: "text-indent",
+			value:    "-9999px",
+		},
+	}
+	assert.Equal(t, actual, expected)
+}
+
 func TestEmma_parse_Blank(t *testing.T) {
 	actual, err := parse("")
 	assert.NotNil(t, err)
