@@ -8,10 +8,11 @@ import (
 )
 
 func main() {
-	ret := emma.Find(emma.Src, os.Args[1:])
-	str, err := emma.ToJSON(ret)
+	e := emma.NewEmma()
+	str, err := e.Find(os.Args[1:]).ToJSON()
 	if err != nil {
 		fmt.Println("Failed to output json.")
+		return
 	}
 
 	fmt.Println(str)
