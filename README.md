@@ -1,4 +1,4 @@
-# go-emma [![Build Status](http://img.shields.io/travis/ruedap/go-emma.svg?style=flat-square)](https://travis-ci.org/ruedap/go-emma) [![Coverage Status](http://img.shields.io/coveralls/ruedap/go-emma/master.svg?style=flat-square)](https://coveralls.io/r/ruedap/go-emma)
+# go-emma [![Build Status](http://img.shields.io/travis/ruedap/go-emma.svg?style=flat-square)](https://travis-ci.org/ruedap/go-emma)
 
 [Emma.css](https://github.com/ruedap/emma.css) { emmet-like utility classes } for Golang
 
