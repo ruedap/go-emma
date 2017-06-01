@@ -8,6 +8,35 @@ import (
 	"strings"
 )
 
+type TEmmaDoc struct {
+	Ver  string `json:"ver"`
+	Vars []struct {
+		Name  string `json:"name"`
+		Value string `json:"value"`
+	} `json:"vars"`
+	Rules struct {
+		Props []struct {
+			Name   string `json:"name"`
+			Abbr   string `json:"abbr"`
+			Group  string `json:"group"`
+			Values []struct {
+				Name string `json:"name"`
+				Abbr string `json:"abbr"`
+			} `json:"values"`
+		} `json:"props"`
+		Mixins []struct {
+			Name  string `json:"name"`
+			Abbr  string `json:"abbr"`
+			Desc  string `json:"desc"`
+			Group string `json:"group"`
+			Decls []struct {
+				Prop  string `json:"prop"`
+				Value string `json:"value"`
+			} `json:"decls"`
+		} `json:"mixins"`
+	} `json:"rules"`
+}
+
 type Emma struct {
 	src    string
 	decls  []Decl
