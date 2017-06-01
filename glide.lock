@@ -1,10 +1,20 @@
-hash: 24f4dc9f64fab00b1e8986c732648184f99614b33d6702942353ad7057b53257
-updated: 2017-06-01T21:51:28.945453601+09:00
+hash: 14c5cc80c5472ab863ea47cdab9ff19aaef1018e715298609ecac9a0aa8ce20c
+updated: 2017-06-01T22:29:33.613811514+09:00
 imports:
 - name: github.com/ruedap/go-emma
   version: 3f22bb8182163cb50d8e95585cf9342268d621b1
+- name: gopkg.in/yaml.v2
+  version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
 testImports:
+- name: github.com/davecgh/go-spew
+  version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
 - name: github.com/stretchr/testify
-  version: ""
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
   subpackages:
   - assert
