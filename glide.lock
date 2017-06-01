@@ -1,0 +1,10 @@
+hash: 24f4dc9f64fab00b1e8986c732648184f99614b33d6702942353ad7057b53257
+updated: 2017-06-01T21:51:28.945453601+09:00
+imports:
+- name: github.com/ruedap/go-emma
+  version: 3f22bb8182163cb50d8e95585cf9342268d621b1
+testImports:
+- name: github.com/stretchr/testify
+  version: ""
+  subpackages:
+  - assert
