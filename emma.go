@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"regexp"
 	"strings"
 
 	yaml "gopkg.in/yaml.v2"
@@ -153,4 +154,9 @@ func containsDecl(d Decl, term string) bool {
 	}
 
 	return false
+}
+
+func isUnit(str string) bool {
+	re := regexp.MustCompile(`^[\d-]`)
+	return re.MatchString(str)
 }

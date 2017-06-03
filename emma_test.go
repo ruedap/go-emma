@@ -76,16 +76,28 @@ func TestEmma_parse(t *testing.T) {
 rules:
   props:
     -
-      name: position
-      abbr: pos
-      group: display
+      name: width
+      abbr: w
+      group: width
       values:
         -
-          name: static
-          abbr: s
+          name: auto
+          abbr: a
         -
-          name: relative
-          abbr: r
+          name: '0'
+          abbr: '0'
+        -
+          name: 1px
+          abbr: '1'
+        -
+          name: 1%
+          abbr: 1p
+        -
+          name: 100%
+          abbr: 100p
+        -
+          name: 25vw
+          abbr: 25vw
 `
 
 	e := NewEmma()
@@ -193,4 +205,13 @@ func TestEmma_containsDecl_False(t *testing.T) {
 
 	actual = containsDecl(d, "ss")
 	assert.False(t, actual)
+}
+func TestEmma_isUnit_True(t *testing.T) {
+	assert.True(t, isUnit("0"))
+	assert.True(t, isUnit("1"))
+	assert.True(t, isUnit("-"))
+}
+func TestEmma_isUnit_False(t *testing.T) {
+	assert.False(t, isUnit("a"))
+	assert.False(t, isUnit("b"))
 }
