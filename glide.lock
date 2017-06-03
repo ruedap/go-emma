@@ -1,13 +1,13 @@
-hash: 14c5cc80c5472ab863ea47cdab9ff19aaef1018e715298609ecac9a0aa8ce20c
-updated: 2017-06-01T22:29:33.613811514+09:00
+hash: ed5700569002b292d15e9ed71933e903c910732f5439ff3c14202bceb6f6b9c9
+updated: 2017-06-03T21:44:25.037795265+09:00
 imports:
-- name: github.com/ruedap/go-emma
-  version: 3f22bb8182163cb50d8e95585cf9342268d621b1
+- name: github.com/mjibson/esc
+  version: 8e9316f44809c83673f7da1b0aabf9c709afd5f5
 - name: gopkg.in/yaml.v2
   version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
 testImports:
 - name: github.com/davecgh/go-spew
-  version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
   - spew
 - name: github.com/pmezard/go-difflib
