@@ -2,6 +2,12 @@ language: go
 sudo: false
 go:
   - tip
-  - 1.7.6
-  - 1.6.4
-  - 1.5.4
+  - 1.7.x
+  - 1.6.x
+install:
+  - go get -v github.com/Masterminds/glide
+  - cd $GOPATH/src/github.com/Masterminds/glide && git checkout tags/0.10.2 && go install && cd -
+  - glide install
+script:
+  - go build cmd/emma/main.go
+  - go test $(glide novendor)
