@@ -111,7 +111,7 @@ func (e *Emma) parse() ([]Decl, error) {
 	for _, prop := range props {
 		for _, value := range prop.Values {
 			dec = Decl{
-				Snippet:  prop.Abbr + "-" + value.Abbr,
+				Snippet:  generateAbbr(prop.Abbr, value.Abbr),
 				Property: prop.Name,
 				Value:    value.Name,
 			}
@@ -156,7 +156,14 @@ func containsDecl(d Decl, term string) bool {
 	return false
 }
 
-func isUnit(str string) bool {
-	re := regexp.MustCompile(`^[\d-]`)
+func isNumeric(str string) bool {
+	re := regexp.MustCompile(`^(\d|-\d)`)
 	return re.MatchString(str)
+}
+
+func generateAbbr(propAbbr, valueAbbr string) string {
+	if isNumeric(valueAbbr) {
+		return propAbbr + valueAbbr
+	}
+	return propAbbr + "-" + valueAbbr
 }
