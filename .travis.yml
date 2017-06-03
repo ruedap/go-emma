@@ -1,7 +1,7 @@
 language: go
 sudo: false
 go:
-  - tip
+  - 1.8.x
   - 1.7.x
   - 1.6.x
 install:
@@ -10,4 +10,4 @@ install:
   - glide install
 script:
   - go build cmd/emma/main.go
-  - go test $(glide novendor)
+  - go test -v $(glide novendor)
