@@ -13,10 +13,14 @@ glide:
 ifeq ($(shell command -v glide 2> /dev/null),)
 	curl https://glide.sh/get | sh
 endif
+	glide install
+
+.PHONY: esc
+esc:
+	esc -o data.go -pkg emma data/
 
 .PHONY: deps
-deps: glide
-	glide install
+deps: glide esc
 
 .PHONY: install
 install:
