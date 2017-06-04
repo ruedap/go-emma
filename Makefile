@@ -1,12 +1,6 @@
 NAME := emma
-VERSION := v0.10.0.0
-REVISION := $(shell git rev-parse --short HEAD)
-SRCS := $(shell find . -type f -name '*.go')
 
-.DEFAULT_GOAL := bin/$(NAME)
-
-bin/$(NAME): $(SRCS)
-	go build -o bin/$(NAME)
+.DEFAULT_GOAL := build
 
 .PHONY: glide
 glide:
@@ -21,6 +15,10 @@ esc:
 
 .PHONY: deps
 deps: glide esc
+
+.PHONY: build
+build:
+	go build -o bin/$(NAME) cmd/$(NAME)/main.go
 
 .PHONY: install
 install:
