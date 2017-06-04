@@ -11,6 +11,7 @@ endif
 
 .PHONY: esc
 esc:
+	go get -v github.com/mjibson/esc
 	esc -o data.go -pkg emma data/
 
 .PHONY: deps
