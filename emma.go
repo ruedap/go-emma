@@ -55,7 +55,7 @@ type Decl struct {
 
 func NewEmma() *Emma {
 	e := new(Emma)
-	data := FSMustString(false, "/data/emma-data.yml")
+	data := FSMustString(false, "/assets/emma-data.yml")
 	e.setSrc(data)
 	e.result = []Decl{}
 

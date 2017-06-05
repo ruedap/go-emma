@@ -9,13 +9,15 @@ ifeq ($(shell command -v glide 2> /dev/null),)
 endif
 	glide install
 
-.PHONY: esc
-esc:
+.PHONY: generate
+generate:
+ifeq ($(shell command -v esc 2> /dev/null),)
 	go get -v github.com/mjibson/esc
-	esc -o data.go -pkg emma data/
+endif
+	go generate
 
 .PHONY: deps
-deps: glide esc
+deps: glide generate
 
 .PHONY: build
 build:
