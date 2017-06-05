@@ -111,18 +111,23 @@ func (e *Emma) parse() ([]Decl, error) {
 		log.Fatalf("error: %v", err)
 	}
 
-	var result []Decl
-	result, err = parseProps(doc.Rules.Props)
+	var resultProps []Decl
+	resultProps, err = parseProps(doc.Rules.Props)
 	if err != nil {
 		return []Decl{}, errors.New("failed to parse source file")
 	}
 
-	return result, nil
+	var resultMixins []Decl
+	resultMixins, err = parseMixins(doc.Rules.Mixins)
+	if err != nil {
+		return []Decl{}, errors.New("failed to parse source file")
+	}
+
+	return append(resultProps, resultMixins...), nil
 }
 
 func parseProps(props []TEmmaDocProp) ([]Decl, error) {
 	var result []Decl
-	var decl Decl
 
 	if len(props) < 1 {
 		return []Decl{}, errors.New("failed to parse source file")
@@ -130,12 +135,11 @@ func parseProps(props []TEmmaDocProp) ([]Decl, error) {
 
 	for _, prop := range props {
 		for _, value := range prop.Values {
-			decl = Decl{
+			result = append(result, Decl{
 				Snippet:  generateAbbr(prop.Abbr, value.Abbr),
 				Property: prop.Name,
 				Value:    value.Name,
-			}
-			result = append(result, decl)
+			})
 		}
 	}
 
@@ -144,20 +148,23 @@ func parseProps(props []TEmmaDocProp) ([]Decl, error) {
 
 func parseMixins(mixins []TEmmaDocMixin) ([]Decl, error) {
 	var result []Decl
-	var decl Decl
 
 	if len(mixins) < 1 {
 		return []Decl{}, errors.New("failed to parse source file")
 	}
 
-	for _, m := range mixins {
-		for _, d := range m.Decls {
-			decl = Decl{
-				Snippet:  m.Abbr,
-				Property: d.Prop,
-				Value:    d.Value,
-			}
-			result = append(result, decl)
+	for _, mixin := range mixins {
+		for _, decl := range mixin.Decls {
+			result = append(result, Decl{
+				Snippet:  mixin.Abbr,
+				Property: decl.Prop,
+				Value:    decl.Value,
+			})
+			result = append(result, Decl{
+				Snippet:  "@include emma-" + mixin.Abbr + ";",
+				Property: decl.Prop,
+				Value:    decl.Value,
+			})
 		}
 	}
 
