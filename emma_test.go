@@ -179,6 +179,81 @@ func TestEmma_parse_Blank(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
+func TestEmma_parseProps(t *testing.T) {
+	props := []TEmmaDocProp{
+		{
+			Name:  "top",
+			Abbr:  "t",
+			Group: "display",
+			Values: []TEmmaDocPropValue{
+				{
+					Name: "auto",
+					Abbr: "a",
+				},
+				{
+					Name: "0",
+					Abbr: "0",
+				},
+			},
+		},
+	}
+
+	actual, err := parseProps(props)
+	assert.Nil(t, err)
+
+	expected := []Decl{
+		{
+			Snippet:  "t-a",
+			Property: "top",
+			Value:    "auto",
+		},
+		{
+			Snippet:  "t0",
+			Property: "top",
+			Value:    "0",
+		},
+	}
+	assert.Equal(t, expected, actual)
+}
+
+func TestEmma_parseMixins(t *testing.T) {
+	mixins := []TEmmaDocMixin{
+		{
+			Name:  "text-hiding",
+			Abbr:  "tehi",
+			Desc:  "Text hiding",
+			Group: "text",
+			Decls: []TEmmaDocMixinDecl{
+				{
+					Prop:  "overflow",
+					Value: "hidden",
+				},
+				{
+					Prop:  "text-indent",
+					Value: "200%",
+				},
+			},
+		},
+	}
+
+	actual, err := parseMixins(mixins)
+	assert.Nil(t, err)
+
+	expected := []Decl{
+		{
+			Snippet:  "tehi",
+			Property: "overflow",
+			Value:    "hidden",
+		},
+		{
+			Snippet:  "tehi",
+			Property: "text-indent",
+			Value:    "200%",
+		},
+	}
+	assert.Equal(t, expected, actual)
+}
+
 func TestEmma_contains_True(t *testing.T) {
 	d := Decl{"pos-s", "position", "static"}
 	actual := contains(d, []string{"s-s"})

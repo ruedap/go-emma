@@ -112,9 +112,17 @@ func (e *Emma) parse() ([]Decl, error) {
 	}
 
 	var result []Decl
-	var decl Decl
+	result, err = parseProps(doc.Rules.Props)
+	if err != nil {
+		return []Decl{}, errors.New("failed to parse source file")
+	}
 
-	props := doc.Rules.Props
+	return result, nil
+}
+
+func parseProps(props []TEmmaDocProp) ([]Decl, error) {
+	var result []Decl
+	var decl Decl
 
 	if len(props) < 1 {
 		return []Decl{}, errors.New("failed to parse source file")
@@ -126,6 +134,28 @@ func (e *Emma) parse() ([]Decl, error) {
 				Snippet:  generateAbbr(prop.Abbr, value.Abbr),
 				Property: prop.Name,
 				Value:    value.Name,
+			}
+			result = append(result, decl)
+		}
+	}
+
+	return result, nil
+}
+
+func parseMixins(mixins []TEmmaDocMixin) ([]Decl, error) {
+	var result []Decl
+	var decl Decl
+
+	if len(mixins) < 1 {
+		return []Decl{}, errors.New("failed to parse source file")
+	}
+
+	for _, m := range mixins {
+		for _, d := range m.Decls {
+			decl = Decl{
+				Snippet:  m.Abbr,
+				Property: d.Prop,
+				Value:    d.Value,
 			}
 			result = append(result, decl)
 		}
